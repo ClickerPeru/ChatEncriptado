@@ -30,7 +30,7 @@ DEBUG = (os.getenv('DEBUG', 'False') == 'True')
 if DEBUG:
     ALLOWED_HOSTS = ['*']
 else:
-    ALLOWED_HOSTS = ['securechat.clicker.pe']
+    ALLOWED_HOSTS = ['securechat.prieto-family.com']
 
 
 # Application definition
@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'rest_framework_simplejwt'
 ]
 
 MIDDLEWARE = [
@@ -80,15 +82,6 @@ WSGI_APPLICATION = 'ChatEncriptado.wsgi.application'
 
 ASGI_APPLICATION = 'ChatEncriptado.asgi.application'
 
-CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels_redis.core.RedisChannelLayer',
-        'CONFIG': {
-            "hosts": [os.environ.get('REDIS_URL')],
-        },
-    },
-}
-
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 result = urlparse(os.environ.get('DATABASE_URL'))
@@ -110,12 +103,13 @@ DATABASES = {
     }
 }
 
-# CELERY
-BROKER_TRANSPORT = 'redis'
-BROKER_URL = os.environ.get('REDIS_URL')
-CELERY_BROKER_URL = os.environ.get('REDIS_URL')
-CELERY_RESULT_BACKEND = 'django-db'
-CELERY_CACHE_BACKEND = 'django-cache'
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 250,
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators

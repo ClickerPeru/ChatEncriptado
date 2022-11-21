@@ -1,1 +1,0 @@
-web: mqttasgi -H mosquito-stracontech.web -p 1883 -v 2 -U jonathan.prieto -P Enero2022 iot_stracontech.asgi:application
