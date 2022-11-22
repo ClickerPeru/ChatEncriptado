@@ -15,6 +15,8 @@ import os
 from urllib.parse import urlparse
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+import api_chat.apps
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
@@ -36,6 +38,7 @@ else:
 # Application definition
 
 INSTALLED_APPS = [
+    'api_chat.apps.ApiChatConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
