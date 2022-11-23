@@ -92,7 +92,11 @@ def send_otp(phone):
         phone = str(phone)
         otp_key = str(key)
 
-        # link = f'https://2factor.in/API/R1/?module=TRANS_SMS&apikey=fc9e5177-b3e7-11e8-a895-0200cd936042&to={phone}&from=wisfrg&templatename=wisfrags&var1={otp_key}'
+        # link = f'https://2factor.in/API/R1/?module=TRANS_SMS&apikey=fc9e5177-b3e7-11e8-a895-0200cd936042&
+        # to={phone}&
+        # from=wisfrg&
+        # templatename=wisfrags&
+        # var1={otp_key}'
 
         # result = requests.get(link, verify=False)
 
@@ -112,7 +116,11 @@ def send_otp_forgot(phone):
         else:
             name = phone
 
-        # link = f'https://2factor.in/API/R1/?module=TRANS_SMS&apikey=fc9e5177-b3e7-11e8-a895-0200cd936042&to={phone}&from=wisfgs&templatename=Wisfrags&var1={name}&var2={otp_key}'
+        # link = f'https://2factor.in/API/R1/?module=TRANS_SMS&apikey=fc9e5177-b3e7-11e8-a895-0200cd936042&
+        # to={phone}&
+        # from=wisfgs&
+        # templatename=Wisfrags&var1={name}&
+        # var2={otp_key}'
 
         # result = requests.get(link, verify=False)
         # print(result)
