@@ -6,8 +6,8 @@ from knox.auth import TokenAuthentication
 from knox.views import LoginView as KnoxLoginView
 from api_chat.utils import phone_validator, password_generator, otp_generator
 from .serializers import (CreateUserSerializer, ChangePasswordSerializer,
-                          UserSerializer, LoginUserSerializer, ForgetPasswordSerializer)
-from api_chat.models import User, PhoneOTP
+                          UserSerializer, LoginUserSerializer, ForgetPasswordSerializer, CreateChatSerializer)
+from api_chat.models import User, PhoneOTP, Chat
 from django.shortcuts import get_object_or_404
 from django.db.models import Q
 from twilio.rest import Client
@@ -494,3 +494,28 @@ class ForgetPasswordChange(APIView):
                 'status': False,
                 'detail': 'Post request have parameters mising.'
             })
+
+class CreateChat(APIView):
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def post(self, request, format=None):
+        serializer = CreateChatSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        telefono_hasta = serializer.validated_data['phone_hasta']
+        consulta_usuario = User.objects.filter(phone__exact=telefono_hasta)
+
+        if len(consulta_usuario) >= 1:
+            user_hasta = consulta_usuario[0]
+
+        else:
+
+            return Response({
+                'status': False,
+                'detail': '¡El numero de telefono del destinatario no existe!'
+            })
+
+        new_chat = Chat(user_desde=, user_hasta=user_hasta)
+
+        new_chat.save()
+
+        return super().post(request, format=None)

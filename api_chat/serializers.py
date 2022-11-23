@@ -74,3 +74,8 @@ class ForgetPasswordSerializer(serializers.Serializer):
     """
     phone = serializers.CharField(required=True)
     password = serializers.CharField(required=True)
+
+
+class CreateChatSerializer(serializers.Serializer):
+
+    phone_hasta = serializers.CharField(required=True)
