@@ -48,6 +48,7 @@ s3transfer==0.6.0
 shortuuid==1.0.11
 six==1.16.0
 sqlparse==0.4.3
+twilio==7.15.3
 urllib3==1.26.12
 validators==0.20.0
 vine==5.0.0
