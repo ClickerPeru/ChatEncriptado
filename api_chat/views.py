@@ -10,6 +10,9 @@ from .serializers import (CreateUserSerializer, ChangePasswordSerializer,
 from api_chat.models import User, PhoneOTP
 from django.shortcuts import get_object_or_404
 from django.db.models import Q
+from twilio.rest import Client
+from django.conf import settings
+
 import requests
 
 from rest_framework.views import APIView
@@ -92,10 +95,13 @@ def send_otp(phone):
         phone = str(phone)
         otp_key = str(key)
 
-        # link = f'https://2factor.in/API/R1/?module=TRANS_SMS&apikey=fc9e5177-b3e7-11e8-a895-0200cd936042&to={phone}&from=wisfrg&templatename=wisfrags&var1={otp_key}'
-
-        # result = requests.get(link, verify=False)
-
+        client = Client(settings.ACCOUNT_SID, settings.AUTH_TOKEN)
+        message = client.messages.create(
+            body=f'Buenos dias, tu código de verificación es: ' + str(otp_key) + '.',
+            from_='+14254753844',
+            to=phone
+        )
+        print(message)
         return otp_key
     else:
         return False
@@ -111,11 +117,14 @@ def send_otp_forgot(phone):
             name = user.name
         else:
             name = phone
+        client = Client(settings.ACCOUNT_SID, settings.AUTH_TOKEN)
+        message = client.messages.create(
+            body=f'Buenos dias: ' + str(name) + 'tu código de verificación es: ' + str(otp_key)+'.',
+            from_='+14254753844',
+            to=phone
+        )
 
-        # link = f'https://2factor.in/API/R1/?module=TRANS_SMS&apikey=fc9e5177-b3e7-11e8-a895-0200cd936042&to={phone}&from=wisfgs&templatename=Wisfrags&var1={name}&var2={otp_key}'
-
-        # result = requests.get(link, verify=False)
-        # print(result)
+        print(message)
 
         return otp_key
     else:

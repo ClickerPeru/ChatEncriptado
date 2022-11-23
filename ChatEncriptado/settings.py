@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'knox',
+    'twilio'
 ]
 
 MIDDLEWARE = [
@@ -183,3 +184,7 @@ AWS_QUERYSTRING_AUTH = False
 AWS_DEFAULT_ACL = 'public-read'
 
 AUTH_USER_MODEL = 'api_chat.User'
+#TWILIO
+ACCOUNT_SID = os.environ['TWILIO_ACCOUNT_SID']
+AUTH_TOKEN = os.environ['TWILIO_AUTH_TOKEN']
+PHONE_NUMBER = os.environ['TWILIO_PHONE_NUMBER']
