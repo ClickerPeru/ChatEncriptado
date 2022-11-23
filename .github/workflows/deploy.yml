@@ -19,10 +19,3 @@ jobs:
           git_remote_url: 'ssh://dokku@clicker.pe:22/chatencriptado'
           ssh_private_key: ${{ secrets.DOKKU_SSH_PRIVATE_KEY }}
 
-      - name: Dokku2
-        uses: dokku/github-action@v1.0.1
-        with:
-          #git_push_flags: '--force'
-          git_remote_url: 'ssh://dokku@clicker.pe:22/chatencriptado2'
-          ssh_private_key: ${{ secrets.DOKKU_SSH_PRIVATE_KEY }}
-
