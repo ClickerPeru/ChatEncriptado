@@ -22,14 +22,17 @@ django-rest-knox==4.2.0
 djangorestframework==3.14.0
 djangorestframework-simplejwt==5.2.2
 dynaconf==3.1.11
+gunicorn==20.1.0
 hvac==1.0.2
 idna==3.4
 jmespath==1.0.1
 knox==0.1.14
 kombu==5.2.4
 loguru==0.6.0
+mqttasgi==1.2.1
 msgpack==1.0.4
 packaging==21.3
+paho-mqtt==1.6.1
 Pillow==9.3.0
 prompt-toolkit==3.0.32
 psycopg2-binary==2.9.5
