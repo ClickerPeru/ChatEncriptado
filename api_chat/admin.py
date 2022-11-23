@@ -11,8 +11,6 @@ from api_chat.forms import UserAdminCreationForm, UserAdminChangeForm
 
 from .models import Profile, PhoneOTP
 
-admin.site.register(PhoneOTP)
-
 
 class ProfileInline(admin.StackedInline):
     model = Profile
@@ -58,6 +56,7 @@ class UserAdmin(BaseUserAdmin):
 
 
 admin.site.register(User, UserAdmin)
+admin.site.register(PhoneOTP)
 
 # Remove Group Model from admin. We're not using it.
 admin.site.unregister(Group)

@@ -46,13 +46,12 @@ class UserManager(BaseUserManager):
         )
         return user
 
-class User(models.Model):
+class User(AbstractBaseUser):
     phone_regex = RegexValidator(regex=r'^\+?1?\d{9,14}$',
                                  message="Phone number must be entered in the format: '+999999999'. Up to 14 digits allowed.")
     id = models.CharField(primary_key=True, unique=True, max_length=20)
     phone = models.CharField(validators=[phone_regex], max_length=17, unique=True)
-    nombre = models.CharField(max_length=250, blank=True, null=True)
-    apellido = models.CharField(max_length=250, blank=False, null=True)
+    name = models.CharField(max_length=250, blank=True, null=True)
     correo = models.EmailField(blank=True, null=True)
     timestamp = models.DateTimeField(auto_now_add=True)
     standard = models.CharField(max_length = 3, blank = True, null = True)
