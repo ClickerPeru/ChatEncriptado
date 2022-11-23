@@ -113,7 +113,7 @@ REST_FRAMEWORK = {
 }
 
 REST_KNOX = {
-    'USER_SERIALIZER': 'api_chat.serializer.UserSerializer',
+    'USER_SERIALIZER': 'api_chat.serializers.UserSerializer',
     'TOKEN_TTL': timedelta(hours=24*7),
 }
 
