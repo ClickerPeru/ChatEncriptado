@@ -1,3 +1,4 @@
+from knox.models import AuthToken
 from rest_framework import permissions, generics, status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
@@ -12,7 +13,7 @@ from django.shortcuts import get_object_or_404
 from django.db.models import Q
 from twilio.rest import Client
 from django.conf import settings
-
+from api_chat.get_token import get_user_from_token
 import requests
 
 from rest_framework.views import APIView
@@ -495,14 +496,22 @@ class ForgetPasswordChange(APIView):
                 'detail': 'Post request have parameters mising.'
             })
 
+
+
 class CreateChat(APIView):
     permission_classes = (permissions.IsAuthenticated,)
 
     def post(self, request, format=None):
+
         serializer = CreateChatSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         telefono_hasta = serializer.validated_data['phone_hasta']
         consulta_usuario = User.objects.filter(phone__exact=telefono_hasta)
+        peticion=request.headers['Authorization']
+        last = peticion.rsplit(' ', 1)[-1]
+
+        user_desde = get_user_from_token(last)
+        #print(user_desde)
 
         if len(consulta_usuario) >= 1:
             user_hasta = consulta_usuario[0]
@@ -514,8 +523,11 @@ class CreateChat(APIView):
                 'detail': '¡El numero de telefono del destinatario no existe!'
             })
 
-        new_chat = Chat(user_desde=, user_hasta=user_hasta)
+        new_chat = Chat(user_desde=user_desde, user_hasta=user_hasta)
 
         new_chat.save()
 
-        return super().post(request, format=None)
+        return Response({
+                        'status': True,
+                        'detail': 'El Chat ha sido creado satisfactoriamente.'
+                    })
