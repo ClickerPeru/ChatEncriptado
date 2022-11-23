@@ -63,6 +63,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'ChatEncriptado.urls'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
+AUTH_USER_MODEL = 'api_chat.User'
 
 TEMPLATES = [
     {
@@ -181,8 +182,7 @@ AWS_S3_FILE_OVERWRITE = False
 AWS_QUERYSTRING_AUTH = False
 AWS_DEFAULT_ACL = 'public-read'
 
-AUTH_USER_MODEL = 'api_chat.User'
 # TWILIO
-ACCOUNT_SID = os.environ['TWILIO_ACCOUNT_SID']
-AUTH_TOKEN = os.environ['TWILIO_AUTH_TOKEN']
-PHONE_NUMBER = os.environ['TWILIO_PHONE_NUMBER']
+ACCOUNT_SID = os.environ.get('TWILIO_ACCOUNT_SID')
+AUTH_TOKEN = os.environ.get('TWILIO_AUTH_TOKEN')
+PHONE_NUMBER = os.environ.get('TWILIO_PHONE_NUMBER')
