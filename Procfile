@@ -1,1 +1,1 @@
-web: gunicorn iot_stracontech.wsgi
+web: gunicorn ChatEncriptado.wsgi
