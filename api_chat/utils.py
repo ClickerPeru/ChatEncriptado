@@ -1,8 +1,13 @@
 import string
 from django.utils.text import slugify
+import re
+import random
+from base64 import b64encode
+
+Dont_use = ['create']
 
 
-def random_string_generator(size=10, chars=string.ascii_lowercase + string.digits):
+def random_string_generator(size=5, chars=string.ascii_lowercase + string.digits):
     return ''.join(random.choice(chars) for _ in range(size))
 
 
@@ -28,9 +33,6 @@ def unique_otp_generator(instance):
     return key
 
 
-Dont_use = ['create']
-
-
 def unique_slug_generator(instance, new_slug=None):
     if new_slug is not None:
         slug = new_slug
@@ -54,10 +56,6 @@ def unique_slug_generator(instance, new_slug=None):
     return slug
 
 
-def random_string_generator(size=5, chars=string.ascii_lowercase + string.digits):
-    return ''.join(random.choice(chars) for _ in range(size))
-
-
 def unique_order_id_generator(instance):
     new_id = random_string_generator()
     k = instance.__class__
@@ -65,11 +63,6 @@ def unique_order_id_generator(instance):
     if q:
         return unique_order_id_generator(instance)
     return new_id
-
-
-import re
-import random
-from base64 import b64encode
 
 
 def phone_validator(phone_number):
