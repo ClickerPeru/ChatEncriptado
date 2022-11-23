@@ -1,15 +1,12 @@
 from __future__ import unicode_literals
 from django.contrib.auth import get_user_model
 from django.contrib import admin
-
-User = get_user_model()
-
 from django.contrib.auth.models import Group
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-
 from api_chat.forms import UserAdminCreationForm, UserAdminChangeForm
+from api_chat.models import Profile, PhoneOTP
 
-from .models import Profile, PhoneOTP
+User = get_user_model()
 
 
 class ProfileInline(admin.StackedInline):

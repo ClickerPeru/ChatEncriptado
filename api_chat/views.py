@@ -1,22 +1,18 @@
-from knox.models import AuthToken
 from rest_framework import permissions, generics, status
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
 from django.contrib.auth import login
 from knox.auth import TokenAuthentication
 from knox.views import LoginView as KnoxLoginView
-from api_chat.utils import phone_validator, password_generator, otp_generator
+from api_chat.utils import otp_generator
 from .serializers import (CreateUserSerializer, ChangePasswordSerializer,
                           UserSerializer, LoginUserSerializer, ForgetPasswordSerializer,
-                          CreateChatSerializer,ValidateChatSerializer,AuthorizedChatSerializer)
+                          CreateChatSerializer, ValidateChatSerializer, AuthorizedChatSerializer)
 from api_chat.models import User, PhoneOTP, Chat
 from django.shortcuts import get_object_or_404
 from django.db.models import Q
 from twilio.rest import Client
 from django.conf import settings
 from api_chat.get_token import get_user_from_token
-import requests
-
 from rest_framework.views import APIView
 
 
@@ -121,7 +117,7 @@ def send_otp_forgot(phone):
             name = phone
         client = Client(settings.ACCOUNT_SID, settings.AUTH_TOKEN)
         message = client.messages.create(
-            body=f'Buenos dias: ' + str(name) + ' tu código de verificación es: ' + str(otp_key)+'.',
+            body=f'Buenos dias: ' + str(name) + ' tu código de verificación es: ' + str(otp_key) + '.',
             from_='+14254753844',
             to=phone
         )
@@ -342,55 +338,55 @@ class ValidatePhoneForgot(APIView):
 
 
 class ValidatePhoneSendOTP(APIView):
-#     '''
-#     This class view takes phone number and if it doesn't exists already then it sends otp for
-#     first coming phone numbers'''
+    #     '''
+    #     This class view takes phone number and if it doesn't exists already then it sends otp for
+    #     first coming phone numbers'''
 
-     def post(self, request, *args, **kwargs):
-         phone_number = request.data.get('phone')
-         if phone_number:
-             phone = str(phone_number)
-             user = User.objects.filter(phone__iexact = phone)
-             if user.exists():
-                 return Response({'status': False, 'detail': 'Phone Number already exists'})
-                  # logic to send the otp and store the phone number and that otp in table.
-             else:
-                 otp = send_otp(phone)
-                 print(phone, otp)
-                 if otp:
-                     otp = str(otp)
-                     count = 0
-                     old = PhoneOTP.objects.filter(phone__iexact = phone)
-                     if old.exists():
-                         count = old.first().count
-                         old.first().count = count + 1
-                         old.first().save()
-                     else:
-                         count = count + 1
-                         PhoneOTP.objects.create(
-                              phone =  phone,
-                              otp =   otp,
-                              count = count
+    def post(self, request, *args, **kwargs):
+        phone_number = request.data.get('phone')
+        if phone_number:
+            phone = str(phone_number)
+            user = User.objects.filter(phone__iexact=phone)
+            if user.exists():
+                return Response({'status': False, 'detail': 'Phone Number already exists'})
+                # logic to send the otp and store the phone number and that otp in table.
+            else:
+                otp = send_otp(phone)
+                print(phone, otp)
+                if otp:
+                    otp = str(otp)
+                    count = 0
+                    old = PhoneOTP.objects.filter(phone__iexact=phone)
+                    if old.exists():
+                        count = old.first().count
+                        old.first().count = count + 1
+                        old.first().save()
+                    else:
+                        count = count + 1
+                        PhoneOTP.objects.create(
+                            phone=phone,
+                            otp=otp,
+                            count=count
 
-                              )
-                     if count > 7:
-                         return Response({
-                             'status' : False,
-                              'detail' : 'Maximum otp limits reached. Kindly support our customer care or try with different number'
-                         })
+                        )
+                    if count > 7:
+                        return Response({
+                            'status': False,
+                            'detail': 'Maximum otp limits reached. Kindly support our customer care or try with different number'
+                        })
 
-                 else:
-                     return Response({
-                                 'status': 'False', 'detail' : "OTP sending error. Please try after some time."
-                             })
+                else:
+                    return Response({
+                        'status': 'False', 'detail': "OTP sending error. Please try after some time."
+                    })
 
-                 return Response({
-                     'status': True, 'detail': 'Otp has been sent successfully.'
-                 })
-         else:
-             return Response({
-                 'status': 'False', 'detail' : "I haven't received any phone number. Please do a POST request."
-             })
+                return Response({
+                    'status': True, 'detail': 'Otp has been sent successfully.'
+                })
+        else:
+            return Response({
+                'status': 'False', 'detail': "I haven't received any phone number. Please do a POST request."
+            })
 
 
 class ForgotValidateOTP(APIView):
@@ -495,7 +491,6 @@ class ForgetPasswordChange(APIView):
             })
 
 
-
 class CreateChat(APIView):
     permission_classes = (permissions.IsAuthenticated,)
 
@@ -505,11 +500,11 @@ class CreateChat(APIView):
         serializer.is_valid(raise_exception=True)
         telefono_hasta = serializer.validated_data['phone_hasta']
         consulta_usuario = User.objects.filter(phone__exact=telefono_hasta)
-        peticion=request.headers['Authorization']
+        peticion = request.headers['Authorization']
         last = peticion.rsplit(' ', 1)[-1]
 
         user_desde = get_user_from_token(last)
-        #print(user_desde)
+        # print(user_desde)
 
         if len(consulta_usuario) >= 1:
             user_hasta = consulta_usuario[0]
@@ -526,9 +521,9 @@ class CreateChat(APIView):
         new_chat.save()
 
         return Response({
-                        'status': True,
-                        'detail': 'El Chat ha sido creado satisfactoriamente.'
-                    })
+            'status': True,
+            'detail': 'El Chat ha sido creado satisfactoriamente.'
+        })
 
 
 class ValidateChat(APIView):
@@ -537,10 +532,10 @@ class ValidateChat(APIView):
     def get(self, request, format=None):
 
         serializer = ValidateChatSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True) #valida la estructura
+        serializer.is_valid(raise_exception=True)  # valida la estructura
         id_chat = serializer.validated_data['id_chat']
         consulta_chat = Chat.objects.filter(id__exact=id_chat)
-        peticion=request.headers['Authorization']
+        peticion = request.headers['Authorization']
         last = peticion.rsplit(' ', 1)[-1]
 
         user_hasta = get_user_from_token(last)
@@ -606,5 +601,3 @@ class AuthorizedChat(APIView):
                 'status': False,
                 'detail': 'La conversación no ha sido aceptada.'
             })
-
-

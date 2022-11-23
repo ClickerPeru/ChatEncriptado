@@ -1,6 +1,5 @@
 from rest_framework import serializers
 from django.contrib.auth import authenticate
-
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
@@ -77,14 +76,12 @@ class ForgetPasswordSerializer(serializers.Serializer):
 
 
 class CreateChatSerializer(serializers.Serializer):
-
     phone_hasta = serializers.CharField(required=True)
 
 
 class ValidateChatSerializer(serializers.Serializer):
-
     id_chat = serializers.IntegerField(required=True)
 
-class AuthorizedChatSerializer(serializers.Serializer):
 
+class AuthorizedChatSerializer(serializers.Serializer):
     id_chat = serializers.IntegerField(required=True)

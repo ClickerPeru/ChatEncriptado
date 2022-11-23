@@ -26,7 +26,6 @@ admin.site.index_title = "Bienvenido a la Plataforma de administración del Chat
 urlpatterns = [
 
     re_path(r'^api/', include('api_chat.urls')),
-    #re_path(r'^assess/', include('check.urls', namespace='check')),
 
     path('accounts/password_reset/', auth_views.PasswordResetView.as_view(), name='admin_password_reset', ),
     path('accounts/password_reset/done/', auth_views.PasswordResetDoneView.as_view(),

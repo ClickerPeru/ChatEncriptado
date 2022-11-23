@@ -1,7 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
-
-from .models import User
+from api_chat.models import User
 
 
 class LoginForm(forms.Form):

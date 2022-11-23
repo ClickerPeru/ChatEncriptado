@@ -20,7 +20,6 @@ import api_chat.apps
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
@@ -34,7 +33,6 @@ if DEBUG:
     ALLOWED_HOSTS = ['*']
 else:
     ALLOWED_HOSTS = ['securechat.prieto-family.com']
-
 
 # Application definition
 
@@ -114,7 +112,7 @@ REST_FRAMEWORK = {
 
 REST_KNOX = {
     'USER_SERIALIZER': 'api_chat.serializers.UserSerializer',
-    'TOKEN_TTL': timedelta(hours=24*7),
+    'TOKEN_TTL': timedelta(hours=24 * 7),
 }
 
 # Password validation
@@ -184,7 +182,7 @@ AWS_QUERYSTRING_AUTH = False
 AWS_DEFAULT_ACL = 'public-read'
 
 AUTH_USER_MODEL = 'api_chat.User'
-#TWILIO
+# TWILIO
 ACCOUNT_SID = os.environ['TWILIO_ACCOUNT_SID']
 AUTH_TOKEN = os.environ['TWILIO_AUTH_TOKEN']
 PHONE_NUMBER = os.environ['TWILIO_PHONE_NUMBER']

@@ -1,7 +1,8 @@
 from django.urls import re_path
 from knox import views as knox_views
-from api_chat.views import ValidateOTP, Register, LoginAPI, ValidatePhoneSendOTP, CreateChat, ValidateChat,\
-    ForgotValidateOTP, ValidatePhoneForgot, ChangePasswordAPI, ForgetPasswordChange, ValidatePhoneSendOTP, AuthorizedChat
+from api_chat.views import ValidateOTP, Register, LoginAPI, CreateChat, ValidateChat, \
+    ForgotValidateOTP, ValidatePhoneForgot, ChangePasswordAPI, ForgetPasswordChange, ValidatePhoneSendOTP, \
+    AuthorizedChat
 
 urlpatterns = [
     re_path('^validate_send_otp/', ValidatePhoneSendOTP.as_view()),
@@ -17,6 +18,5 @@ urlpatterns = [
     re_path("^forgot_validate_otp/", ForgotValidateOTP.as_view()),
     re_path("^validate_phone_send_otp/", ValidatePhoneSendOTP.as_view()),
     re_path("^authorized_chat/", AuthorizedChat.as_view()),
-
 
 ]

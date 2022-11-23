@@ -4,9 +4,9 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.core.validators import RegexValidator
 from rest_framework.authtoken.models import Token
 from django.db.models.signals import post_save
-
 import random
 import os
+
 
 class UserManager(BaseUserManager):
     def create_user(self, phone, password=None, is_staff=False, is_active=True, is_admin=False):
@@ -31,7 +31,6 @@ class UserManager(BaseUserManager):
             password=password,
             is_staff=True,
 
-
         )
         return user
 
@@ -42,9 +41,9 @@ class UserManager(BaseUserManager):
             is_staff=True,
             is_admin=True,
 
-
         )
         return user
+
 
 class User(AbstractBaseUser):
     phone_regex = RegexValidator(regex=r'^\+?1?\d{9,14}$',
@@ -53,8 +52,8 @@ class User(AbstractBaseUser):
     phone = models.CharField(validators=[phone_regex], max_length=17, unique=True)
     name = models.CharField(max_length=250, blank=True, null=True)
     correo = models.EmailField(blank=True, null=True)
-    standard = models.CharField(max_length = 3, blank = True, null = True)
-    score = models.IntegerField(default = 16)
+    standard = models.CharField(max_length=3, blank=True, null=True)
+    score = models.IntegerField(default=16)
     first_login = models.BooleanField(default=False)
     active = models.BooleanField(default=True)
     staff = models.BooleanField(default=False)
@@ -76,7 +75,6 @@ class User(AbstractBaseUser):
         return True
 
     def has_module_perms(self, app_label):
-
         return True
 
     @property
@@ -100,10 +98,11 @@ class User(AbstractBaseUser):
 
 
 class Chat(models.Model):
-
     id = models.AutoField(primary_key=True)
-    user_desde = models.ForeignKey(to=User, null=True, blank=False, on_delete=models.SET_NULL, related_name="user_desde")
-    user_hasta = models.ForeignKey(to=User, null=True, blank=False, on_delete=models.SET_NULL, related_name="user_hasta")
+    user_desde = models.ForeignKey(to=User, null=True, blank=False, on_delete=models.SET_NULL,
+                                   related_name="user_desde")
+    user_hasta = models.ForeignKey(to=User, null=True, blank=False, on_delete=models.SET_NULL,
+                                   related_name="user_hasta")
     fecha_hora_creacion = models.DateTimeField(auto_now_add=True)
     aceptado = models.BooleanField(max_length=250, blank=False, null=True, default=False)
 
@@ -164,4 +163,3 @@ class PhoneOTP(models.Model):
 
     def __str__(self):
         return str(self.phone) + ' is sent ' + str(self.otp)
-
