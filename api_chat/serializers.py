@@ -79,3 +79,12 @@ class ForgetPasswordSerializer(serializers.Serializer):
 class CreateChatSerializer(serializers.Serializer):
 
     phone_hasta = serializers.CharField(required=True)
+
+
+class ValidateChatSerializer(serializers.Serializer):
+
+    id_chat = serializers.IntegerField(required=True)
+
+class AuthorizedChatSerializer(serializers.Serializer):
+
+    id_chat = serializers.IntegerField(required=True)

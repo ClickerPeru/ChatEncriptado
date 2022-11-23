@@ -100,6 +100,7 @@ class User(AbstractBaseUser):
 
 
 class Chat(models.Model):
+
     id = models.AutoField(primary_key=True)
     user_desde = models.ForeignKey(to=User, null=True, blank=False, on_delete=models.SET_NULL, related_name="user_desde")
     user_hasta = models.ForeignKey(to=User, null=True, blank=False, on_delete=models.SET_NULL, related_name="user_hasta")
