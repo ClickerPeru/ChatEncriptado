@@ -100,11 +100,11 @@ class User(AbstractBaseUser):
 
 
 class Chat(models.Model):
-    id = models.CharField(primary_key=True, unique=True, max_length=20)
+    id = models.AutoField(primary_key=True)
     user_desde = models.ForeignKey(to=User, null=True, blank=False, on_delete=models.SET_NULL, related_name="user_desde")
     user_hasta = models.ForeignKey(to=User, null=True, blank=False, on_delete=models.SET_NULL, related_name="user_hasta")
     fecha_hora_creacion = models.DateTimeField(auto_now_add=True)
-    aceptado = models.CharField(max_length=250, blank=False, null=True)
+    aceptado = models.BooleanField(max_length=250, blank=False, null=True, default=False)
 
     class Meta:
         verbose_name = 'chat'
