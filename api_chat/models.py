@@ -4,8 +4,6 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.core.validators import RegexValidator
 from rest_framework.authtoken.models import Token
 from django.db.models.signals import post_save
-import random
-import os
 
 
 class UserManager(BaseUserManager):
