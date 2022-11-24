@@ -337,58 +337,6 @@ class ValidatePhoneForgot(APIView):
                 })
 
 
-class ValidatePhoneSendOTP(APIView):
-    #     '''
-    #     This class view takes phone number and if it doesn't exists already then it sends otp for
-    #     first coming phone numbers'''
-
-    def post(self, request, *args, **kwargs):
-        phone_number = request.data.get('phone')
-        if phone_number:
-            phone = str(phone_number)
-            user = User.objects.filter(phone__iexact=phone)
-            if user.exists():
-                return Response({'status': False, 'detail': 'Phone Number already exists'})
-                # logic to send the otp and store the phone number and that otp in table.
-            else:
-                otp = send_otp(phone)
-                print(phone, otp)
-                if otp:
-                    otp = str(otp)
-                    count = 0
-                    old = PhoneOTP.objects.filter(phone__iexact=phone)
-                    if old.exists():
-                        count = old.first().count
-                        old.first().count = count + 1
-                        old.first().save()
-                    else:
-                        count = count + 1
-                        PhoneOTP.objects.create(
-                            phone=phone,
-                            otp=otp,
-                            count=count
-
-                        )
-                    if count > 7:
-                        return Response({
-                            'status': False,
-                            'detail': 'Maximum otp limits reached. Kindly support our customer care or try with different number'
-                        })
-
-                else:
-                    return Response({
-                        'status': 'False', 'detail': "OTP sending error. Please try after some time."
-                    })
-
-                return Response({
-                    'status': True, 'detail': 'Otp has been sent successfully.'
-                })
-        else:
-            return Response({
-                'status': 'False', 'detail': "I haven't received any phone number. Please do a POST request."
-            })
-
-
 class ForgotValidateOTP(APIView):
     '''
     If you have received an otp, post a request with phone and that otp and you will be redirected to reset  the forgotted password
