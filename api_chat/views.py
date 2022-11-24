@@ -550,3 +550,47 @@ class AuthorizedChat(APIView):
                 'status': False,
                 'detail': 'La conversación no ha sido aceptada.'
             })
+
+class ValidateChatAproved(APIView):
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get(self, request, format=None):
+
+        serializer = ValidateChatSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)  # valida la estructura
+        id_chat = serializer.validated_data['id_chat']
+        consulta_chat = Chat.objects.filter(id__exact=id_chat)
+        peticion = request.headers['Authorization']
+        last = peticion.rsplit(' ', 1)[-1]
+
+        user_desde = get_user_from_token(last)
+
+        if len(consulta_chat) >= 1:
+            chat = consulta_chat[0]
+
+        else:
+
+            return Response({
+                'status': False,
+                'detail': '¡La conversación no existe!'
+            })
+
+        if user_desde == chat.user_desde:
+
+            if chat.aceptado == True:
+                return Response({
+                    'status': True,
+                    'detail': 'La conversación ha sido aceptada por el receptor.'
+                })
+
+            else:
+                return Response({
+                    'status': False,
+                    'detail': 'La conversación no ha sido aceptada por el receptor.'
+                })
+
+        else:
+            return Response({
+                'status': False,
+                'detail': 'La conversación consultada no le corresponde.'
+            })
