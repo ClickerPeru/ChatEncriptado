@@ -470,7 +470,8 @@ class CreateChat(APIView):
 
         return Response({
             'status': True,
-            'detail': 'El Chat ha sido creado satisfactoriamente.'
+            'detail': 'El Chat ha sido creado satisfactoriamente.',
+            'id_conversacion': str(new_chat.pk)
         })
 
 
