@@ -114,26 +114,10 @@ class Chat(models.Model):
         return str(self.id)
 
 
-def upload_image_path_profile(instance, filename):
-    new_filename = random.randint(1, 9996666666)
-    name, ext = get_filename_ext(filename)
-    final_filename = '{new_filename}{ext}'.format(new_filename=new_filename, ext=ext)
-    return "profile/{new_filename}/{final_filename}".format(
-        new_filename=new_filename,
-        final_filename=final_filename
-    )
-
-
-def get_filename_ext(filepath):
-    base_name = os.path.basename(filepath)
-    name, ext = os.path.splitext(base_name)
-    return name, ext
-
-
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     email = models.EmailField(blank=True, null=True)
-    image = models.ImageField(upload_to=upload_image_path_profile, default=None, null=True, blank=True)
+    image = models.ImageField(null=True, blank=True)
     address = models.CharField(max_length=900, blank=True, null=True)
     city = models.CharField(max_length=30, blank=True, null=True)
     first_count = models.IntegerField(default=0,
