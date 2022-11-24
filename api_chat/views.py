@@ -258,7 +258,7 @@ class Register(APIView):
                         old.delete()
                         return Response({
                             'status': True,
-                            'detail': 'Congrts, user has been created successfully.'
+                            'detail': 'Congrats, user has been created successfully.'
                         })
 
                     else:
