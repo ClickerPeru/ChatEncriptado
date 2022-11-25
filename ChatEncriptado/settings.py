@@ -192,3 +192,10 @@ AWS_DEFAULT_ACL = 'public-read'
 ACCOUNT_SID = os.environ.get('TWILIO_ACCOUNT_SID')
 AUTH_TOKEN = os.environ.get('TWILIO_AUTH_TOKEN')
 PHONE_NUMBER = os.environ.get('TWILIO_PHONE_NUMBER')
+
+#CORS
+CORS_ALLOW_ALL_ORIGINS = True
+#CORS_ALLOW_ALL_ORIGINS = False
+#CORS_ALLOWED_ORIGINS = [
+#    "https://app-securechat.prieto-family.come/"
+#]
