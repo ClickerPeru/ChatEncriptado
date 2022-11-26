@@ -14,9 +14,8 @@ from twilio.rest import Client
 from django.conf import settings
 from api_chat.get_token import get_user_from_token
 from rest_framework.views import APIView
-from django.views.decorators.csrf import csrf_exempt
 
-@csrf_exempt
+
 class LoginAPI(KnoxLoginView):
     permission_classes = (permissions.AllowAny,)
 
@@ -35,7 +34,7 @@ class LoginAPI(KnoxLoginView):
         login(request, user)
         return super().post(request, format=None)
 
-@csrf_exempt
+
 class UserAPI(generics.RetrieveAPIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = [permissions.IsAuthenticated, ]
@@ -44,7 +43,7 @@ class UserAPI(generics.RetrieveAPIView):
     def get_object(self):
         return self.request.user
 
-@csrf_exempt
+
 class ChangePasswordAPI(generics.UpdateAPIView):
     """
     Change password endpoint view
@@ -133,7 +132,7 @@ def send_otp_forgot(phone):
 ############################################################################################################################################################################################
 ################################################################################################################################################################
 
-@csrf_exempt
+
 class ValidatePhoneSendOTP(APIView):
     '''
     This class view takes phone number and if it doesn't exists already then it sends otp for
@@ -188,7 +187,7 @@ class ValidatePhoneSendOTP(APIView):
                 'status': 'False', 'detail': "I haven't received any phone number. Please do a POST request."
             })
 
-@csrf_exempt
+
 class ValidateOTP(APIView):
     '''
     If you have received otp, post a request with phone and that otp and you will be redirected to set the password
@@ -230,7 +229,7 @@ class ValidateOTP(APIView):
                 'detail': 'Either phone or otp was not recieved in Post request'
             })
 
-@csrf_exempt
+
 class Register(APIView):
     '''Takes phone and a password and creates a new user only if otp was verified and phone is new'''
 
@@ -284,7 +283,7 @@ class Register(APIView):
                 'detail': 'Either phone or password was not recieved in Post request'
             })
 
-@csrf_exempt
+
 class ValidatePhoneForgot(APIView):
     '''
     Validate if account is there for a given phone number and then send otp for forgot password reset'''
@@ -337,7 +336,7 @@ class ValidatePhoneForgot(APIView):
                     'detail': 'Phone number not recognised. Kindly try a new account for this number'
                 })
 
-@csrf_exempt
+
 class ForgotValidateOTP(APIView):
     '''
     If you have received an otp, post a request with phone and that otp and you will be redirected to reset  the forgotted password
@@ -385,7 +384,7 @@ class ForgotValidateOTP(APIView):
                 'detail': 'Either phone or otp was not recieved in Post request'
             })
 
-@csrf_exempt
+
 class ForgetPasswordChange(APIView):
     '''
     if forgot_logged is valid and account exists then only pass otp, phone and password to reset the password. All three should match.APIView
@@ -439,7 +438,7 @@ class ForgetPasswordChange(APIView):
                 'detail': 'Post request have parameters mising.'
             })
 
-@csrf_exempt
+
 class CreateChat(APIView):
     permission_classes = (permissions.IsAuthenticated,)
 
@@ -475,7 +474,7 @@ class CreateChat(APIView):
             'id_conversacion': str(new_chat.pk)
         })
 
-@csrf_exempt
+
 class ValidateChat(APIView):
     permission_classes = (permissions.IsAuthenticated,)
 
@@ -512,7 +511,7 @@ class ValidateChat(APIView):
                 'detail': 'La conversación no ha sido verificada correctamente.'
             })
 
-@csrf_exempt
+
 class AuthorizedChat(APIView):
     permission_classes = (permissions.IsAuthenticated,)
 
@@ -551,7 +550,7 @@ class AuthorizedChat(APIView):
                 'status': False,
                 'detail': 'La conversación no ha sido aceptada.'
             })
-@csrf_exempt
+
 class ValidateChatAproved(APIView):
     permission_classes = (permissions.IsAuthenticated,)
 
