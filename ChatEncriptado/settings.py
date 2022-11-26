@@ -197,5 +197,11 @@ PHONE_NUMBER = os.environ.get('TWILIO_PHONE_NUMBER')
 CORS_ALLOW_ALL_ORIGINS = True
 #CORS_ALLOW_ALL_ORIGINS = False
 #CORS_ALLOWED_ORIGINS = [
-#    "https://app-securechat.prieto-family.come/"
+#    "https://app-securechat.prieto-family.com/"
 #]
+
+#COOKIES
+if DEBUG == False:
+     SESSION_COOKIE_DOMAIN = '.prieto-family.com'
+SESSION_COOKIE_NAME = 'trackingsessionid'
+SESSION_COOKIE_HTTPONLY = False
