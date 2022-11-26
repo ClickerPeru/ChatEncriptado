@@ -239,6 +239,7 @@ class Register(APIView):
     def post(self, request, *args, **kwargs):
         phone = request.data.get('phone', False)
         password = request.data.get('password', False)
+        name = request.data.get('name', False)
 
         if phone and password:
             phone = str(phone)
@@ -255,7 +256,11 @@ class Register(APIView):
 
                         serializer = CreateUserSerializer(data=Temp_data)
                         serializer.is_valid(raise_exception=True)
+                        if name and len(name) > 0:
+                            user.name = name
                         user = serializer.save()
+
+                        user.name = name
                         user.save()
 
                         old.delete()
